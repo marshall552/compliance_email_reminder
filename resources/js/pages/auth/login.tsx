@@ -1,14 +1,35 @@
 import { Head, useForm } from '@inertiajs/react';
-import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler } from 'react';
+import { motion } from 'framer-motion';
+import AuthForm from '@/components/comp-ui/auth-form';
+import OfficersImage from '/public/images/officers.png';
 
-import InputError from '@/components/input-error';
-import TextLink from '@/components/text-link';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
+// Define animation variants for the text container
+const textContainerVariants = {
+    hidden: { opacity: 0, x: 50 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            duration: 0.6,
+            ease: 'easeOut',
+            when: 'beforeChildren',
+            staggerChildren: 0.2,
+        },
+    },
+};
+
+// Define animation variants for the text children (h2, p)
+const textChildVariants = {
+    hidden: { opacity: 0, x: 20 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            duration: 0.4,
+            ease: 'easeOut',
+        },
+    },
+};
 
 type LoginForm = {
     email: string;
@@ -28,83 +49,107 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         remember: false,
     });
 
-    const submit: FormEventHandler = (e) => {
+    const submit: React.FormEventHandler = (e) => {
         e.preventDefault();
         post(route('login'), {
             onFinish: () => reset('password'),
         });
     };
 
+    const formInputs = [
+        {
+            type: 'email',
+            placeholder: 'johndoe@gmail.com',
+            label: 'Email',
+            id: 'email',
+            autoComplete: 'email',
+            required: true,
+            tabIndex: 1,
+        },
+        {
+            type: 'password',
+            placeholder: '********',
+            label: 'Password',
+            id: 'password',
+            autoComplete: 'current-password',
+            required: true,
+            tabIndex: 2,
+        },
+    ];
+
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
-            <Head title="Log in" />
+        <>
+            <Head title="Log In">
+                <link rel="preconnect" href="https://fonts.bunny.net" />
+                <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+            </Head>
+            <div
+                className="min-h-screen w-full flex bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a]"
+                style={{
+                    backgroundImage: `url(${OfficersImage})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            >
+                {/* Left Section - Form Card and Logo */}
+                <div className="flex-1 flex items-center justify-center p-10 relative">
 
-            <form className="flex flex-col gap-6" onSubmit={submit}>
-                <div className="grid gap-6">
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">Email address</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            required
-                            autoFocus
-                            tabIndex={1}
-                            autoComplete="email"
-                            value={data.email}
-                            onChange={(e) => setData('email', e.target.value)}
-                            placeholder="email@example.com"
-                        />
-                        <InputError message={errors.email} />
-                    </div>
-
-                    <div className="grid gap-2">
-                        <div className="flex items-center">
-                            <Label htmlFor="password">Password</Label>
-                            {canResetPassword && (
-                                <TextLink href={route('password.request')} className="ml-auto text-sm" tabIndex={5}>
-                                    Forgot password?
-                                </TextLink>
-                            )}
-                        </div>
-                        <Input
-                            id="password"
-                            type="password"
-                            required
-                            tabIndex={2}
-                            autoComplete="current-password"
-                            value={data.password}
-                            onChange={(e) => setData('password', e.target.value)}
-                            placeholder="Password"
-                        />
-                        <InputError message={errors.password} />
-                    </div>
-
-                    <div className="flex items-center space-x-3">
-                        <Checkbox
-                            id="remember"
-                            name="remember"
-                            checked={data.remember}
-                            onClick={() => setData('remember', !data.remember)}
-                            tabIndex={3}
-                        />
-                        <Label htmlFor="remember">Remember me</Label>
-                    </div>
-
-                    <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                        Log in
-                    </Button>
+                    {/* AuthForm Component */}
+                    <AuthForm<LoginForm>
+                        title="LOGIN"
+                        subtitle="Enter your email and password"
+                        inputs={formInputs}
+                        buttonText="Login"
+                        secondaryText="Don't have an account?"
+                        secondaryLink={{ text: 'Sign Up', href: route('home') }}
+                        form={{ data, setData }}
+                        processing={processing}
+                        errors={errors}
+                        onSubmit={submit}
+                        showRemember={true}
+                        remember={data.remember}
+                        setRemember={(value) => setData('remember', value)}
+                        canResetPassword={canResetPassword}
+                    />
                 </div>
 
-                <div className="text-muted-foreground text-center text-sm">
-                    Don't have an account?{' '}
-                    <TextLink href={route('register')} tabIndex={5}>
-                        Sign up
-                    </TextLink>
+                {/* Right Section - Text with Motion */}
+                <div className="flex-1 flex items-start justify-end p-10 pt-36">
+                    <motion.div
+                        className="text-right"
+                        variants={textContainerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
+                        <motion.h2
+                            className="text-5xl font-extrabold text-black leading-tight"
+                            variants={textChildVariants}
+                        >
+                            Continue
+                        </motion.h2>
+                        <motion.h2
+                            className="text-5xl font-bold text-black leading-tight mb-4 -mt-2"
+                            variants={textChildVariants}
+                        >
+                            with your account!
+                        </motion.h2>
+                        <motion.p
+                            className="text-xl text-black leading-relaxed -mt-2.5 font-medium"
+                            variants={textChildVariants}
+                        >
+                            Log in to access your account and stay on top of regulatory
+                        </motion.p>
+                        <motion.p
+                            className="text-xl text-black leading-relaxed font-medium"
+                            variants={textChildVariants}
+                        >
+                            requirements efficiently.
+                        </motion.p>
+                    </motion.div>
                 </div>
-            </form>
-
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
-        </AuthLayout>
+            </div>
+            {status && <div className="text-center text-sm font-medium text-green-600">{status}</div>}
+        </>
     );
 }
