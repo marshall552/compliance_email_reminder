@@ -1,13 +1,9 @@
 // import { Head, useForm } from '@inertiajs/react';
-// import { LoaderCircle } from 'lucide-react';
-// import { FormEventHandler } from 'react';
-
-// import InputError from '@/components/input-error';
-// import TextLink from '@/components/text-link';
-// import { Button } from '@/components/ui/button';
-// import { Input } from '@/components/ui/input';
-// import { Label } from '@/components/ui/label';
-// import AuthLayout from '@/layouts/auth-layout';
+// import AuthForm from '@/components/comp-ui/auth-form';
+// import motion from 'framer-motion';
+// // Import the images
+// import sign from '/public/images/sign.png';
+// import theLogo from '/public/images/the-logo.png';
 
 // type RegisterForm = {
 //     name: string;
@@ -24,103 +20,147 @@
 //         password_confirmation: '',
 //     });
 
-//     const submit: FormEventHandler = (e) => {
+//     const submit: React.FormEventHandler = (e) => {
 //         e.preventDefault();
 //         post(route('register'), {
 //             onFinish: () => reset('password', 'password_confirmation'),
 //         });
 //     };
 
+//     const formInputs = [
+//         {
+//             type: 'text',
+//             placeholder: 'John Doe',
+//             label: 'Name',
+//             id: 'name',
+//             autoComplete: 'name',
+//             required: true,
+//             tabIndex: 1,
+//         },
+//         {
+//             type: 'email',
+//             placeholder: 'email@example.com',
+//             label: 'Email',
+//             id: 'email',
+//             autoComplete: 'email',
+//             required: true,
+//             tabIndex: 2,
+//         },
+//         {
+//             type: 'password',
+//             placeholder: '* * * * * * * *',
+//             label: 'Password',
+//             id: 'password',
+//             autoComplete: 'new-password',
+//             required: true,
+//             tabIndex: 3,
+//         },
+//         {
+//             type: 'password',
+//             placeholder: '* * * * * * * *',
+//             label: 'Confirm password',
+//             id: 'password_confirmation',
+//             autoComplete: 'new-password',
+//             required: true,
+//             tabIndex: 4,
+//         },
+//     ];
+
+//     // Define animation variants for the container
+//     const containerVariants = {
+//         hidden: { opacity: 0, y: 50 },
+//         visible: {
+//             opacity: 1,
+//             y: 0,
+//             transition: {
+//                 duration: 0.6,
+//                 ease: 'easeOut',
+//                 when: 'beforeChildren', // Animate children after the container
+//                 staggerChildren: 0.2, // Stagger the children animations
+//             },
+//         },
+//     };
+
+//     // Define animation variants for the children (logo, h2, p)
+//     const childVariants = {
+//         hidden: { opacity: 0, y: 20 },
+//         visible: {
+//             opacity: 1,
+//             y: 0,
+//             transition: {
+//                 duration: 0.4,
+//                 ease: 'easeOut',
+//             },
+//         },
+//     };
+
 //     return (
-//         <AuthLayout title="Create an account" description="Enter your details below to create your account">
-//             <Head title="Register" />
-//             <form className="flex flex-col gap-6" onSubmit={submit}>
-//                 <div className="grid gap-6">
-//                     <div className="grid gap-2">
-//                         <Label htmlFor="name">Name</Label>
-//                         <Input
-//                             id="name"
-//                             type="text"
-//                             required
-//                             autoFocus
-//                             tabIndex={1}
-//                             autoComplete="name"
-//                             value={data.name}
-//                             onChange={(e) => setData('name', e.target.value)}
-//                             disabled={processing}
-//                             placeholder="Full name"
+//         <>
+//             <Head title="Register">
+//                 <link rel="preconnect" href="https://fonts.googleapis.com" />
+//                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+//                 <link
+//                     href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@700&display=swap"
+//                     rel="stylesheet"
+//                 />
+//             </Head>
+//             <div
+//                 className="flex min-h-screen items-center justify-center p-6 text-[#1b1b18] dark:text-white relative"
+//                 style={{
+//                     backgroundImage: `url(${sign})`, // Use the imported image
+//                     backgroundSize: 'cover',
+//                     backgroundPosition: 'center',
+//                     backgroundRepeat: 'no-repeat',
+//                 }}
+//             >
+//                 <div className="flex flex-col lg:flex-row items-center justify-center max-w-5xl w-full gap-12">
+//                     {/* Left Section - Logo, Tagline, and Description */}
+//                     <div className="text-center -mt-8">
+//                         <img
+//                             src={theLogo} // Use the imported image
+//                             alt="TASK Logo"
+//                             className="mx-auto w-90 h-auto"
 //                         />
-//                         <InputError message={errors.name} className="mt-2" />
+//                         <h2 className="text-3xl font-semibold text-blue-300 mb-2 -mt-3">Make Every Task Count!</h2>
+//                         <p className="text-blue-300 text-sm max-w-md">
+//                             Conquer your work with Tasks you keep organized, focused, and ahead of deadlines—because
+//                             your time matters. Sign in to access your account and explore exclusive features.
+//                         </p>
 //                     </div>
 
-//                     <div className="grid gap-2">
-//                         <Label htmlFor="email">Email address</Label>
-//                         <Input
-//                             id="email"
-//                             type="email"
-//                             required
-//                             tabIndex={2}
-//                             autoComplete="email"
-//                             value={data.email}
-//                             onChange={(e) => setData('email', e.target.value)}
-//                             disabled={processing}
-//                             placeholder="email@example.com"
+//                     {/* Right Section - Form Card */}
+//                     <div className="bg-[#F9F9F9] rounded-lg shadow-lg p-8 w-full max-w-md">
+//                         <AuthForm<RegisterForm>
+//                             title="Create Account"
+//                             subtitle="Enter your credentials to sign up"
+//                             inputs={formInputs}
+//                             buttonText="Sign Up"
+//                             secondaryText="Already have an account?"
+//                             secondaryLink={{ text: 'Log in', href: route('login') }}
+//                             form={{ data, setData }}
+//                             processing={processing}
+//                             errors={errors}
+//                             onSubmit={submit}
 //                         />
-//                         <InputError message={errors.email} />
 //                     </div>
-
-//                     <div className="grid gap-2">
-//                         <Label htmlFor="password">Password</Label>
-//                         <Input
-//                             id="password"
-//                             type="password"
-//                             required
-//                             tabIndex={3}
-//                             autoComplete="new-password"
-//                             value={data.password}
-//                             onChange={(e) => setData('password', e.target.value)}
-//                             disabled={processing}
-//                             placeholder="Password"
-//                         />
-//                         <InputError message={errors.password} />
-//                     </div>
-
-//                     <div className="grid gap-2">
-//                         <Label htmlFor="password_confirmation">Confirm password</Label>
-//                         <Input
-//                             id="password_confirmation"
-//                             type="password"
-//                             required
-//                             tabIndex={4}
-//                             autoComplete="new-password"
-//                             value={data.password_confirmation}
-//                             onChange={(e) => setData('password_confirmation', e.target.value)}
-//                             disabled={processing}
-//                             placeholder="Confirm password"
-//                         />
-//                         <InputError message={errors.password_confirmation} />
-//                     </div>
-
-//                     <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
-//                         {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-//                         Create account
-//                     </Button>
 //                 </div>
 
-//                 <div className="text-muted-foreground text-center text-sm">
-//                     Already have an account?{' '}
-//                     <TextLink href={route('login')} tabIndex={6}>
-//                         Log in
-//                     </TextLink>
-//                 </div>
-//             </form>
-//         </AuthLayout>
+//                 {/* Stronghold Label */}
+//                 <div className="absolute bottom-4 right-4 text-gray-300 text-sm font-medium">STRONGHOLD</div>
+//             </div>
+//         </>
 //     );
 // }
 
-
-import { Head, useForm } from '@inertiajs/react';
 import AuthForm from '@/components/comp-ui/auth-form';
+import { Head, useForm } from '@inertiajs/react';
+import { motion } from 'framer-motion';
+
+// Import the images
+import sign from '/public/images/sign.png';
+import smallLogo from '/public/images/small-logo.png'; // Import the small logo
+import strongholdLogo from '/public/images/stronghold-logo.png';
+import theLogo from '/public/images/the-logo.png';
 
 type RegisterForm = {
     name: string;
@@ -147,7 +187,7 @@ export default function Register() {
     const formInputs = [
         {
             type: 'text',
-            placeholder: 'Full name',
+            placeholder: 'John Doe',
             label: 'Name',
             id: 'name',
             autoComplete: 'name',
@@ -165,7 +205,7 @@ export default function Register() {
         },
         {
             type: 'password',
-            placeholder: 'Password',
+            placeholder: '* * * * * * * *',
             label: 'Password',
             id: 'password',
             autoComplete: 'new-password',
@@ -174,8 +214,8 @@ export default function Register() {
         },
         {
             type: 'password',
-            placeholder: 'Confirm password',
-            label: 'Confirm Password',
+            placeholder: '* * * * * * * *',
+            label: 'Confirm password',
             id: 'password_confirmation',
             autoComplete: 'new-password',
             required: true,
@@ -183,42 +223,95 @@ export default function Register() {
         },
     ];
 
+    // Define animation variants for the container
+    const containerVariants = {
+        hidden: { opacity: 0, x: -50 }, // Start 50px to the left
+        visible: {
+            opacity: 1,
+            x: 0, // Move to its original position
+            transition: {
+                duration: 0.6,
+                ease: 'easeOut',
+                when: 'beforeChildren',
+                staggerChildren: 0.2,
+            },
+        },
+    };
+
+    // Define animation variants for the children (logo, h2, p)
+    const childVariants = {
+        hidden: { opacity: 0, x: 20 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: {
+                duration: 0.4,
+                ease: 'easeOut',
+            },
+        },
+    };
+
     return (
         <>
             <Head title="Register">
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Open+Sans:wght@700&display=swap"
+                    rel="stylesheet"
+                />
             </Head>
-            <div className="flex min-h-screen bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a]">
-                {/* Left Section - Background Image */}
-                <div
-                    className="flex-1 bg-[#1E3A8A] lg:rounded-l-lg"
-                    style={{
-                        backgroundImage: `url(/images/signup-img.png)`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                    }}
-                ></div>
+            <div
+                className="relative flex min-h-screen items-center justify-center p-6 text-[#1b1b18] dark:text-white"
+                style={{
+                    backgroundImage: `url(${sign})`, // Use the imported image
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                }}
+            >
+                {/* Small Logo in Upper Left Corner */}
+                <img
+                    src={smallLogo}
+                    alt="Small Logo"
+                    className="absolute top-4 left-4 h-auto w-12" // Positioned in upper left corner
+                />
 
-                {/* Right Section - Container */}
-                <div className="flex-1 flex items-center justify-center p-10 bg-[#F9F9F9] lg:rounded-r-lg relative">
-                    {/* AuthForm Component */}
+                <div className="flex w-full max-w-5xl flex-col items-center justify-center gap-14 lg:flex-row">
+                    {/* Left Section - Logo, Tagline, and Description with Motion */}
+                    <motion.div className="font-poppins -mt-8 text-center" variants={containerVariants} initial="hidden" animate="visible">
+                        <motion.img
+                            src={theLogo} // Use the imported image
+                            className="mx-auto h-auto w-90"
+                            variants={childVariants}
+                            alt="TASK Logo"
+                        />
+                        <motion.h2 className="-mt-3 mb-2 text-3xl font-semibold text-blue-300" variants={childVariants}>
+                            Make Every Task Count!
+                        </motion.h2>
+                        <motion.p className="text-md max-w-md text-blue-300" variants={childVariants}>
+                            Conquer your work with Tasks you keep organized, focused, and ahead of deadlines because your time matters. Sign in to
+                            access your account and explore exclusive features.
+                        </motion.p>
+                    </motion.div>
+
+                    {/* Right Section - Form Card */}
                     <AuthForm<RegisterForm>
                         title="Create Account"
-                        subtitle="Enter your information"
+                        subtitle="Enter your credentials to sign in securely."
                         inputs={formInputs}
                         buttonText="Sign Up"
                         secondaryText="Already have an account?"
-                        secondaryLink={{ text: 'Login', href: route('login') }}
+                        secondaryLink={{ text: 'Log in', href: route('login') }}
                         form={{ data, setData }}
                         processing={processing}
                         errors={errors}
                         onSubmit={submit}
                     />
-
-                    {/* Stronghold label in the bottom-right corner */}
-                    <div className="absolute bottom-4 right-4 text-gray-400 text-sm">STRONGHOLD</div>
                 </div>
+
+                {/* Stronghold Label */}
+                <img src={strongholdLogo} alt="Stronghold Logo" className="absolute right-4 bottom-4 h-auto w-30"/>
             </div>
         </>
     );

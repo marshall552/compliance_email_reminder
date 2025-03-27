@@ -1,35 +1,8 @@
 import { Head, useForm } from '@inertiajs/react';
-import { motion } from 'framer-motion';
 import AuthForm from '@/components/comp-ui/auth-form';
-import OfficersImage from '/public/images/officers.png';
-
-// Define animation variants for the text container
-const textContainerVariants = {
-    hidden: { opacity: 0, x: 50 },
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: {
-            duration: 0.6,
-            ease: 'easeOut',
-            when: 'beforeChildren',
-            staggerChildren: 0.2,
-        },
-    },
-};
-
-// Define animation variants for the text children (h2, p)
-const textChildVariants = {
-    hidden: { opacity: 0, x: 20 },
-    visible: {
-        opacity: 1,
-        x: 0,
-        transition: {
-            duration: 0.4,
-            ease: 'easeOut',
-        },
-    },
-};
+import LoginImage from '/public/images/login.png';
+import smallLogo from '/public/images/small-logo.png';
+import strongholdLogo from '/public/images/stronghold-logo.png';
 
 type LoginForm = {
     email: string;
@@ -86,19 +59,26 @@ export default function Login({ status, canResetPassword }: LoginProps) {
             <div
                 className="min-h-screen w-full flex bg-[#FDFDFC] text-[#1b1b18] dark:bg-[#0a0a0a]"
                 style={{
-                    backgroundImage: `url(${OfficersImage})`,
+                    backgroundImage: `url(${LoginImage})`,
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     backgroundRepeat: 'no-repeat',
                 }}
+
+                
             >
+                <img 
+                    src={smallLogo}
+                    alt="Small Logo"
+                    className="absolute top-4 left-4 h-auto w-12" // Positioned in upper left corner
+                />
                 {/* Left Section - Form Card and Logo */}
                 <div className="flex-1 flex items-center justify-center p-10 relative">
 
                     {/* AuthForm Component */}
                     <AuthForm<LoginForm>
                         title="LOGIN"
-                        subtitle="Enter your email and password"
+                        subtitle="Log in to access your tasks, stay organized, and take control of your productivity with Tasko!"
                         inputs={formInputs}
                         buttonText="Login"
                         secondaryText="Don't have an account?"
@@ -114,42 +94,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                     />
                 </div>
 
-                {/* Right Section - Text with Motion */}
-                <div className="flex-1 flex items-start justify-end p-10 pt-36">
-                    <motion.div
-                        className="text-right"
-                        variants={textContainerVariants}
-                        initial="hidden"
-                        animate="visible"
-                    >
-                        <motion.h2
-                            className="text-5xl font-extrabold text-black leading-tight"
-                            variants={textChildVariants}
-                        >
-                            Continue
-                        </motion.h2>
-                        <motion.h2
-                            className="text-5xl font-bold text-black leading-tight mb-4 -mt-2"
-                            variants={textChildVariants}
-                        >
-                            with your account!
-                        </motion.h2>
-                        <motion.p
-                            className="text-xl text-black leading-relaxed -mt-2.5 font-medium"
-                            variants={textChildVariants}
-                        >
-                            Log in to access your account and stay on top of regulatory
-                        </motion.p>
-                        <motion.p
-                            className="text-xl text-black leading-relaxed font-medium"
-                            variants={textChildVariants}
-                        >
-                            requirements efficiently.
-                        </motion.p>
-                    </motion.div>
-                </div>
+                
             </div>
             {status && <div className="text-center text-sm font-medium text-green-600">{status}</div>}
+
+            <img
+                src={strongholdLogo} alt="Stronghold Logo" className="absolute right-4 bottom-4 h-auto w-30"
+            />
         </>
     );
 }
